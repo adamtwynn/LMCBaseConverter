@@ -1,0 +1,180 @@
+# Enter assembler code here
+#
+# To add comments begin lines with #
+# Code lines have 3 entries separated by tabs
+# > First an optional label,
+# > second an instruction mnemonic, and 
+# > third an address label if required.
+#
+# Valid mnemonics are:
+# HLT, ADD, SUB, STO, LDA,
+# BR, BRZ, BRP, IN, OUT, DAT
+
+# Input 3 values and store them in n, a and b
+	IN	
+	STO	n
+
+# Separate each value from n
+lhund	LDA	n1
+	ADD	one
+	STO	n1
+	LDA	n
+	SUB	hundred
+	STO	n
+	BRP	lhund
+
+	SUB	nineh
+	STO	n
+	
+ltens	LDA	n2
+	ADD	one
+	STO	n2
+	LDA	n
+	SUB	ten
+	STO	n
+	BRP	ltens
+
+	SUB	ninen
+	STO	n
+
+lunits	LDA	n3
+	ADD	one
+	STO	n3
+	LDA	n
+	SUB	one
+	STO	n
+	BRP	lunits
+
+# Convert value to base ten 
+	IN	
+	STO	a
+	STO	temp
+	LDA	n1
+	STO	n
+
+
+convert	LDA	temp
+	SUB	one
+	STO	temp
+	BRZ	convert2
+	LDA	n
+	ADD	n1
+	STO	n
+	BRP 	convert
+
+convert2	LDA	check
+	SUB	one
+	BRZ 	convert3
+	STO	check
+	LDA	n
+	ADD	n2
+	STO	n
+	STO	n1
+	LDA	a
+	STO	temp
+	BR	convert
+
+convert3	LDA	n
+	ADD	n3
+	STO	n
+	
+
+# Convert value from base ten
+	IN
+	STO	a
+
+start	LDA	zero
+	STO	n1
+
+divide	LDA 	n1
+	ADD 	one
+	STO	n1
+	LDA 	n
+	STO	remainder
+	SUB	a
+	STO	n
+	BRP	divide
+
+	LDA	n1
+	SUB	one
+	STO	n
+	LDA	remainder
+	OUT
+	BRZ	combine
+	BR	start
+
+combine	HLT
+	
+# Data points for variables
+a	DAT	000	
+n	DAT	000
+hundred	DAT	100
+ten	DAT	010
+one	DAT	001
+n1	DAT	999
+n2	DAT	999
+n3	DAT	999
+temp	DAT	000
+check 	DAT 	002
+nineh	DAT	900	
+ninen	DAT	990
+remainder	DAT	000
+zero 	DAT	000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
